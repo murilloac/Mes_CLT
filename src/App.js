@@ -136,7 +136,7 @@ function App() {
         }
       }
     });
-  }, [despesas]);
+  }, [despesas, mesAtual]);
 
   const receitasMes = receitas.filter(r => r.mes === mesAtual);
   const despesasMes = despesas.filter(d => d.mes === mesAtual);

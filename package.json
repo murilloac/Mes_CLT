@@ -1,6 +1,6 @@
 {
   "name": "mes-clt",
-  "homepage": "https://murilloac.github.io/Mes_CLT/",
+  "homepage": ".",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
