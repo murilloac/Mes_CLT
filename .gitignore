@@ -1,0 +1,16 @@
+# dependências
+node_modules/
+
+# build
+build/
+
+# ambiente
+.env
+.env.local
+.env.production
+
+# logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
