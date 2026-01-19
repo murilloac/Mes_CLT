@@ -1,0 +1,101 @@
+.form-card {
+  background: #f8f9fa;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.form-card h2 {
+  margin-bottom: 20px;
+  color: #333;
+  font-size: 20px;
+}
+
+.form-card form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.form-card input {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
+
+.form-card input:disabled {
+  background: #f0f0f0;
+  cursor: not-allowed;
+}
+
+.form-card select {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+  background: white;
+  cursor: pointer;
+}
+
+.form-card select:focus,
+.form-card input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.parcela-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.parcela-group input {
+  flex: 1;
+}
+
+.parcela-group span {
+  font-size: 20px;
+  font-weight: bold;
+  color: #666;
+}
+
+.form-card button {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  color: white;
+}
+
+.form-card button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+
+.btn-receita {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.btn-despesa {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.checkbox-recorrente {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #555;
+  cursor: pointer;
+}
+
+.checkbox-recorrente input {
+  width: auto;
+  cursor: pointer;
+}
