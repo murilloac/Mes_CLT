@@ -64,6 +64,28 @@
   .cards-contribuicao {
     grid-template-columns: 1fr;
   }
+
+  .card {
+    padding: 20px;
+  }
+
+  .card h3 {
+    font-size: 16px;
+  }
+
+  .card .valor {
+    font-size: 24px;
+  }
+
+  .divisao-saldo,
+  .contribuicao-despesas {
+    padding: 20px;
+  }
+
+  .divisao-saldo h2,
+  .contribuicao-despesas h2 {
+    font-size: 18px;
+  }
 }
 
 .divisao-saldo {

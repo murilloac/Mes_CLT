@@ -1,0 +1,166 @@
+.metas-container {
+  margin: 30px 0;
+  padding: 25px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.metas-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.metas-header h2 {
+  color: #333;
+  font-size: 22px;
+}
+
+.btn-editar-meta {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  background: #667eea;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-editar-meta:hover {
+  transform: translateY(-2px);
+}
+
+.metas-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.meta-input {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.meta-input label {
+  font-weight: 600;
+  color: #555;
+}
+
+.meta-input input {
+  padding: 12px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 16px;
+}
+
+.btn-salvar-meta {
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-salvar-meta:hover {
+  transform: translateY(-2px);
+}
+
+.metas-display {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.meta-card {
+  background: white;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.meta-card h3 {
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.meta-valor {
+  font-size: 18px;
+  font-weight: bold;
+  color: #667eea;
+  margin-bottom: 5px;
+}
+
+.meta-atual {
+  font-size: 16px;
+  color: #555;
+  margin-bottom: 15px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 20px;
+  background: #e0e0e0;
+  border-radius: 10px;
+  overflow: hidden;
+  margin-bottom: 10px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  transition: width 0.5s ease;
+}
+
+.progress-fill.alerta {
+  background: linear-gradient(135deg, #eb3349 0%, #f45c43 100%);
+}
+
+.progress-fill.economia {
+  background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
+}
+
+.progress-fill.completo {
+  background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+}
+
+.progress-text {
+  text-align: center;
+  font-size: 14px;
+  color: #666;
+  font-weight: 600;
+}
+
+.sem-metas {
+  text-align: center;
+  color: #999;
+  padding: 40px;
+  font-style: italic;
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 768px) {
+  .metas-display {
+    grid-template-columns: 1fr;
+  }
+
+  .metas-container {
+    padding: 20px;
+  }
+
+  .metas-header h2 {
+    font-size: 18px;
+  }
+
+  .btn-editar-meta {
+    padding: 8px 15px;
+    font-size: 14px;
+  }
+}

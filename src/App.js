@@ -4,18 +4,27 @@ import FormReceita from './components/FormReceita';
 import FormDespesa from './components/FormDespesa';
 import ListaTransacoes from './components/ListaTransacoes';
 import Dashboard from './components/Dashboard';
+import Metas from './components/Metas';
+import Graficos from './components/Graficos';
 
 function App() {
   const [receitas, setReceitas] = useState([]);
   const [despesas, setDespesas] = useState([]);
   const [mesAtual, setMesAtual] = useState(new Date().toISOString().slice(0, 7));
   const [abaAtiva, setAbaAtiva] = useState('resultados');
+  const [modoEscuro, setModoEscuro] = useState(false);
+  const [metas, setMetas] = useState({});
 
   useEffect(() => {
     const receitasSalvas = localStorage.getItem('receitas');
     const despesasSalvas = localStorage.getItem('despesas');
+    const metasSalvas = localStorage.getItem('metas');
+    const modoEscuroSalvo = localStorage.getItem('modoEscuro');
+    
     if (receitasSalvas) setReceitas(JSON.parse(receitasSalvas));
     if (despesasSalvas) setDespesas(JSON.parse(despesasSalvas));
+    if (metasSalvas) setMetas(JSON.parse(metasSalvas));
+    if (modoEscuroSalvo) setModoEscuro(JSON.parse(modoEscuroSalvo));
   }, []);
 
   useEffect(() => {
@@ -25,6 +34,15 @@ function App() {
   useEffect(() => {
     localStorage.setItem('despesas', JSON.stringify(despesas));
   }, [despesas]);
+
+  useEffect(() => {
+    localStorage.setItem('metas', JSON.stringify(metas));
+  }, [metas]);
+
+  useEffect(() => {
+    localStorage.setItem('modoEscuro', JSON.stringify(modoEscuro));
+    document.body.className = modoEscuro ? 'modo-escuro' : '';
+  }, [modoEscuro]);
 
   const adicionarReceita = (receita) => {
     setReceitas([...receitas, { ...receita, id: Date.now() }]);
@@ -46,6 +64,39 @@ function App() {
     setDespesas(despesas.map(d => d.id === id ? { ...d, valor: novoValor, copiada: false } : d));
   };
 
+  const salvarMeta = (novasMetas) => {
+    setMetas({ ...metas, [mesAtual]: novasMetas });
+  };
+
+  const exportarDados = () => {
+    const dados = { receitas, despesas, metas };
+    const blob = new Blob([JSON.stringify(dados, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `mes-clt-backup-${new Date().toISOString().slice(0, 10)}.json`;
+    a.click();
+  };
+
+  const importarDados = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      try {
+        const dados = JSON.parse(event.target.result);
+        if (dados.receitas) setReceitas(dados.receitas);
+        if (dados.despesas) setDespesas(dados.despesas);
+        if (dados.metas) setMetas(dados.metas);
+        alert('Dados importados com sucesso!');
+      } catch (error) {
+        alert('Erro ao importar dados!');
+      }
+    };
+    reader.readAsText(file);
+  };
+
   useEffect(() => {
     const despesasRecorrentes = despesas.filter(d => d.recorrente);
     
@@ -61,14 +112,10 @@ function App() {
         );
         
         if (!jaExiste) {
-          // Verifica se é parcelada
           if (despesa.parcela) {
             const [atual, total] = despesa.parcela.split('/').map(Number);
-            
-            // Se já finalizou as parcelas, não copia
             if (atual >= total) return;
             
-            // Incrementa a parcela
             const novaDespesa = {
               ...despesa,
               id: Date.now() + Math.random(),
@@ -78,7 +125,6 @@ function App() {
             };
             setDespesas(prev => [...prev, novaDespesa]);
           } else {
-            // Despesa fixa sem parcela
             const novaDespesa = {
               ...despesa,
               id: Date.now() + Math.random(),
@@ -95,17 +141,40 @@ function App() {
   const receitasMes = receitas.filter(r => r.mes === mesAtual);
   const despesasMes = despesas.filter(d => d.mes === mesAtual);
 
+  const mesAnteriorDate = new Date(mesAtual + '-01');
+  mesAnteriorDate.setMonth(mesAnteriorDate.getMonth() - 1);
+  const mesAnterior = mesAnteriorDate.toISOString().slice(0, 7);
+  
+  const receitasMesAnterior = receitas.filter(r => r.mes === mesAnterior);
+  const despesasMesAnterior = despesas.filter(d => d.mes === mesAnterior);
+
   return (
     <div className="app">
       <header>
         <h1>💰 Mês CLT - Controle Financeiro</h1>
-        <div className="mes-selector">
-          <label>Mês:</label>
-          <input 
-            type="month" 
-            value={mesAtual} 
-            onChange={(e) => setMesAtual(e.target.value)}
-          />
+        <div className="header-controls">
+          <div className="mes-selector">
+            <label>Mês:</label>
+            <input 
+              type="month" 
+              value={mesAtual} 
+              onChange={(e) => setMesAtual(e.target.value)}
+            />
+          </div>
+          <button 
+            className="btn-modo" 
+            onClick={() => setModoEscuro(!modoEscuro)}
+            title="Alternar modo escuro/claro"
+          >
+            {modoEscuro ? '☀️' : '🌙'}
+          </button>
+          <button className="btn-exportar" onClick={exportarDados} title="Exportar dados">
+            💾
+          </button>
+          <label className="btn-importar" title="Importar dados">
+            📂
+            <input type="file" accept=".json" onChange={importarDados} style={{display: 'none'}} />
+          </label>
         </div>
       </header>
 
@@ -127,6 +196,18 @@ function App() {
       {abaAtiva === 'resultados' && (
         <div className="conteudo-aba">
           <Dashboard receitas={receitasMes} despesas={despesasMes} />
+          <Metas 
+            receitas={receitasMes} 
+            despesas={despesasMes} 
+            metas={metas[mesAtual]}
+            onSalvarMeta={salvarMeta}
+          />
+          <Graficos 
+            receitas={receitasMes} 
+            despesas={despesasMes}
+            receitasMesAnterior={receitasMesAnterior}
+            despesasMesAnterior={despesasMesAnterior}
+          />
         </div>
       )}
 

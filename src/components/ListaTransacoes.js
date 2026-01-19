@@ -40,6 +40,7 @@ const ListaTransacoes = ({ receitas, despesas, onRemoverReceita, onRemoverDespes
                 <div className="info">
                   <span className="descricao">
                     {despesa.descricao}
+                    {despesa.categoria && <span className="categoria"> [{despesa.categoria}]</span>}
                     {despesa.parcela && <span className="parcela"> ({despesa.parcela})</span>}
                     {despesa.recorrente && <span className="recorrente"> 🔄</span>}
                     {despesa.copiada && <span className="copiada"> [Editar valor]</span>}

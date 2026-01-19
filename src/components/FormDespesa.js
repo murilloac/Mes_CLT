@@ -7,6 +7,12 @@ const FormDespesa = ({ onAdd, mesAtual }) => {
   const [parcelaAtual, setParcelaAtual] = useState('');
   const [parcelaTotal, setParcelaTotal] = useState('');
   const [recorrente, setRecorrente] = useState(false);
+  const [categoria, setCategoria] = useState('');
+
+  const categorias = [
+    'Moradia', 'Alimentação', 'Transporte', 'Contas', 
+    'Saúde', 'Lazer', 'Educação', 'Vestuário', 'Outros'
+  ];
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -16,12 +22,13 @@ const FormDespesa = ({ onAdd, mesAtual }) => {
       descricao,
       valor: parseFloat(valor),
       mes: mesAtual,
-      tipo: 'despesa'
+      tipo: 'despesa',
+      categoria: categoria || 'Outros'
     };
 
     if (parcelaAtual && parcelaTotal) {
       despesa.parcela = `${parcelaAtual}/${parcelaTotal}`;
-      despesa.recorrente = true; // Parcelas são sempre recorrentes
+      despesa.recorrente = true;
     }
 
     if (recorrente && !despesa.parcela) {
@@ -35,6 +42,7 @@ const FormDespesa = ({ onAdd, mesAtual }) => {
     setParcelaAtual('');
     setParcelaTotal('');
     setRecorrente(false);
+    setCategoria('');
   };
 
   return (
@@ -48,6 +56,16 @@ const FormDespesa = ({ onAdd, mesAtual }) => {
           onChange={(e) => setDescricao(e.target.value)}
           required
         />
+        <select
+          value={categoria}
+          onChange={(e) => setCategoria(e.target.value)}
+          required
+        >
+          <option value="">Selecione a categoria</option>
+          {categorias.map(cat => (
+            <option key={cat} value={cat}>{cat}</option>
+          ))}
+        </select>
         <input
           type="number"
           step="0.01"

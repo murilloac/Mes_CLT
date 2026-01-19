@@ -99,3 +99,32 @@
   width: auto;
   cursor: pointer;
 }
+
+@media (max-width: 768px) {
+  .form-card {
+    padding: 20px;
+  }
+
+  .form-card h2 {
+    font-size: 18px;
+  }
+
+  .form-card input,
+  .form-card select {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .form-card button {
+    padding: 10px;
+    font-size: 14px;
+  }
+
+  .parcela-group input {
+    font-size: 14px;
+  }
+
+  .checkbox-recorrente {
+    font-size: 13px;
+  }
+}
